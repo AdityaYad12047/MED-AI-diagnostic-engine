@@ -205,3 +205,48 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Local envs & secrets
+.env
+.env.*           # variations like .env.dev
+.vscode/
+.idea/
+
+# Virtualenvs
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache / compiled files
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Model / large binary artifacts (use Git LFS instead)
+models/*.pkl
+models/*.joblib
+*.h5
+*.pt
+*.pth
+
+# Uploaded user files (if you don't want them in repo)
+uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Notebook checkpoints / outputs
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Docker
+docker-compose.override.yml
+.envrc
+
