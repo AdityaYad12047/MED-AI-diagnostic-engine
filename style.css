@@ -1,0 +1,577 @@
+:root {
+  --bg: #f3f4f6;
+  --bg-soft: #f9fafb;
+  --card-bg: #ffffff;
+  --text-main: #111827;
+  --text-muted: #6b7280;
+  --border-soft: #e5e7eb;
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
+  --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* ---------------- RESET ---------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+/* ---------------- NAV ---------------- */
+
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(18px);
+  background: rgba(243, 244, 246, 0.92);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.nav-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.7rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 25% 0, #3b82f6, #1d4ed8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.brand-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.brand-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.nav-links a {
+  margin-left: 1.25rem;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+/* ---------------- LAYOUT / HERO ---------------- */
+
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 2rem;
+}
+
+.chip {
+  background: var(--primary-soft);
+  color: var(--primary);
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.hero-left h1 {
+  margin: 0.6rem 0;
+  font-size: 2rem;
+}
+
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ---------------- CARDS ---------------- */
+
+.card {
+  background: var(--card-bg);
+  padding: 1.25rem;
+  border-radius: 18px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------------- BUTTONS ---------------- */
+
+.primary-btn {
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.primary-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* ---------------- ENGINE SECTION ---------------- */
+
+.engine-section {
+  margin-top: 2.25rem;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.section-subtitle {
+  margin: 0.25rem 0 1.1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.engine-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.1fr);
+  gap: 1.5rem;
+}
+
+/* ---------------- TABS ---------------- */
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.tab-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ---------------- FORMS ---------------- */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-field label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+input[type="number"],
+select {
+  border: 1px solid var(--border-soft);
+  padding: 0.45rem 0.65rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: white;
+  outline: none;
+}
+
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.18);
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* ---------------- UPLOAD BOX ---------------- */
+
+.upload-box {
+  border: 1px dashed #cbd5f5;
+  padding: 1rem;
+  background: var(--bg-soft);
+  text-align: center;
+  border-radius: 14px;
+  cursor: pointer;
+  position: relative;
+}
+
+.upload-box input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.upload-icon {
+  font-size: 1.4rem;
+}
+
+.upload-title {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.upload-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ---------------- ANALYSIS CARD ---------------- */
+
+.analysis-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  background: var(--primary-soft);
+  color: var(--primary);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.prediction-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.prediction-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.analysis-body {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.risk-donut {
+  width: 220px;
+  height: 220px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.risk-donut canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.risk-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 10px; /* New: Slight downward shift for perfect centering */
+  text-align: center;
+}
+
+
+#riskValue {
+  font-size: 1.85rem;
+  font-weight: 600;
+}
+
+.risk-caption {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* NEW: ICU admission line under donut */
+/* Better ICU caption positioning */
+.icu-caption {
+  margin-top: 0.15rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: block;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 120px;
+}
+
+/* ---------------- FINDINGS ---------------- */
+
+.findings-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.findings-list li {
+  margin-bottom: 0.25rem;
+}
+
+.findings-list .muted {
+  color: var(--text-muted);
+}
+
+/* ---------------- GLOBAL LOADING OVERLAY ---------------- */
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: none;           /* hidden by default */
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-overlay.active {
+  display: flex;           /* shown only while .active */
+}
+
+.loader-card {
+  background: #ffffff;
+  padding: 22px 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.18);
+  text-align: center;
+  min-width: 260px;
+}
+
+.loader-card p {
+  margin: 0.7rem 0 0.45rem;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+/* Spinner */
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Progress bar */
+
+.progress-bar {
+  width: 220px;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 0.6rem auto 0;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  transition: width 0.35s ease;
+}
+
+/* ---------------- FADE IN RESULTS ---------------- */
+
+.fade-target {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-target.fade-in {
+  animation: fadeIn 0.45s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------- FOOTER ---------------- */
+
+.footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 0.9rem 1.25rem 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .engine-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .risk-donut {
+    width: 190px;
+    height: 190px;
+  }
+}
+
+/* ---------------- HORIZONTAL CAPABILITY CARDS ---------------- */
+
+.capability-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.capability-card {
+  flex: 1 1 calc(33% - 1.5rem);
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.capability-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(30, 64, 175, 0.18);
+}
+
+.cap-icon {
+  font-size: 2rem;
+  background: var(--primary-soft);
+  padding: 0.8rem;
+  height: 56px;
+  width: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.cap-content h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cap-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.cap-content ul {
+  margin: 0.5rem 0;
+  padding-left: 1.1rem;
+  color: var(--text-main);
+}
+
+.cap-content ul li {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.cap-footer {
+  font-size: 0.75rem;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .capability-card {
+    flex: 1 1 100%;
+  }
+}
