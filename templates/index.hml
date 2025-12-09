@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MedAI | Multi-Modal Diagnostic Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+  />
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header class="top-nav">
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-logo">Ｍ</div>
+      <div class="brand-text">
+        <span class="brand-title">MedAI</span>
+        <span class="brand-subtitle">Advanced ICU Risk & Report Analysis</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#engine">Diagnostic Engine</a>
+      <a href="#features">Features</a>
+      <a href="#validation">Validation</a>
+    </nav>
+  </div>
+</header>
+
+<!-- GLOBAL LOADING OVERLAY (hidden by default, shown on Gemini calls) -->
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loader-card">
+    <div class="spinner"></div>
+    <p>Analyzing The Files Please wait</p>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" id="engine">
+    <div class="hero-left">
+      <span class="chip">Prototype · AI in Critical Care</span>
+      <h1>AI-Augmented Clinical Decision Support for the ICU</h1>
+      <p>
+        MedAI combines a fast XGBoost model for ICU vitals with Google Gemini
+        for multimodal analysis of X-rays, MRIs, ECGs, and PDF reports —
+        delivering concise, explainable risk predictions.
+      </p>
+
+      <ul class="hero-list">
+        <li>Sepsis / mortality-oriented risk score from tabular vitals.</li>
+        <li>Gemini-powered interpretation of uploaded medical reports.</li>
+        <li>Clean dashboard with visual risk and clinical findings.</li>
+      </ul>
+    </div>
+
+    <div class="hero-right card">
+      <div class="hero-status">
+        <span class="status-dot"></span>
+        <span>System Active</span>
+      </div>
+      <h2 class="hero-card-title">Launch Analysis</h2>
+      <p class="hero-card-text">
+        Start with ICU vitals or upload a radiology / lab report to generate an
+        AI-assisted risk assessment in real time.
+      </p>
+      <a href="#diagnostic-card" class="primary-btn hero-btn">
+        Open Diagnostic Engine
+      </a>
+    </div>
+  </section>
+
+  <!-- Diagnostic Engine -->
+  <section class="engine-section" id="diagnostic-card">
+    <h2 class="section-title">Multi-Modal Diagnostic Engine</h2>
+    <p class="section-subtitle">
+      Fusion of structured ICU vitals and unstructured imaging / report data.
+    </p>
+
+    <div class="engine-grid">
+      <!-- Left: Input Card -->
+      <div class="card input-card">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="vitals">ICU Vitals</button>
+          <button class="tab-btn" data-tab="upload">Upload Reports</button>
+        </div>
+
+        <div class="tabs-body">
+          <!-- ICU Vitals Tab -->
+          <div class="tab-panel active" id="tab-vitals">
+            <form id="vitalsForm" class="form-grid">
+              <div class="form-field">
+                <label>Age</label>
+                <input type="number" name="age" value="68" required />
+              </div>
+              <div class="form-field">
+                <label>Heart Rate (bpm)</label>
+                <input type="number" name="heart_rate" value="98" required />
+              </div>
+              <div class="form-field">
+                <label>Systolic BP (mmHg)</label>
+                <input type="number" name="systolic_bp" value="120" required />
+              </div>
+              <div class="form-field">
+                <label>Diastolic BP (mmHg)</label>
+                <input type="number" name="diastolic_bp" value="75" required />
+              </div>
+              <div class="form-field">
+                <label>Resp. Rate (breaths/min)</label>
+                <input type="number" name="respiratory_rate" value="20" required />
+              </div>
+              <div class="form-field">
+                <label>Temperature (°C)</label>
+                <input type="number" step="0.1" name="temperature" value="37.8" required />
+              </div>
+              <div class="form-field">
+                <label>O₂ Saturation (%)</label>
+                <input type="number" name="oxygen_saturation" value="95" required />
+              </div>
+              <div class="form-field">
+                <label>WBC Count (10⁹/L)</label>
+                <input type="number" step="0.1" name="wbc_count" value="9.5" required />
+              </div>
+            </form>
+            <button id="runVitalsBtn" class="primary-btn full-width">
+              Run XGBoost Risk Analysis
+            </button>
+          </div>
+
+          <!-- Upload Reports Tab -->
+          <div class="tab-panel" id="tab-upload">
+            <form id="uploadForm" class="upload-form" enctype="multipart/form-data">
+              <div class="form-field">
+                <label>Select Clinical Context</label>
+                <select name="scan_type" id="scanTypeSelect" class="select-input">
+                  <option value="normal">Routine Checkup (Healthy)</option>
+                  <option value="xray_pneumonia">Chest X-Ray – Pneumonia</option>
+                  <option value="xray_fracture">Bone X-Ray – Fracture</option>
+                  <option value="mri_tumor">Brain MRI – Tumor</option>
+                  <option value="ecg_arrhythmia">ECG – Arrhythmia</option>
+                  <option value="blood_infection">Blood Report – Infection / Sepsis</option>
+                </select>
+              </div>
+
+              <p class="hint">
+                The selected context guides Gemini to focus on relevant disease patterns.
+              </p>
+
+              <label class="upload-box">
+                <span class="upload-icon">☁</span>
+                <span class="upload-title">Upload File</span>
+                <span class="upload-subtitle">X-ray, MRI, ECG, or PDF report</span>
+                <input type="file" name="file" id="reportFile" required />
+              </label>
+
+              <button type="button" id="runFileBtn" class="primary-btn full-width">
+                Run Deep Learning Analysis
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Analysis Card -->
+      <div class="card analysis-card fade-target">
+        <div class="analysis-head">
+          <div>
+            <h3>Analysis Report</h3>
+            <span class="badge" id="aiSource">Source: --</span>
+          </div>
+          <div class="prediction-box">
+            <span class="prediction-label">Prediction</span>
+            <span class="prediction-value" id="predictionLabel">--</span>
+          </div>
+        </div>
+
+        <div class="analysis-body">
+          <div class="analysis-left">
+            <div class="risk-donut">
+              <canvas id="riskChart"></canvas>
+              <div class="risk-center">
+                <span id="riskValue">--%</span>
+                <span class="risk-caption">Risk Score</span>
+                <!-- NEW: ICU admission percentage line -->
+                <span class="icu-caption">
+                   ICU admission chance: <strong id="icuChance">--%</strong>
+                </span>
+
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="analysis-right">
+            <h4>Findings</h4>
+            <ul id="findingsList" class="findings-list">
+              <li class="muted">
+                No analysis run yet. Enter vitals or upload a report to begin.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== KEY CAPABILITIES ================== -->
+  <section class="section" id="features">
+    <h2 class="section-title">Key Capabilities</h2>
+    <p class="section-subtitle">Educational prototype for ICU-style prediction.</p>
+
+    <!-- Horizontal Card Row -->
+    <div class="capability-row">
+
+      <!-- Card 1 -->
+      <div class="capability-card">
+        <div class="cap-icon">⚡</div>
+        <div class="cap-content">
+          <h3>Real-Time Vitals Risk</h3>
+          <p class="cap-subtitle">Rule-based ICU Score + XGBoost</p>
+          <ul>
+            <li>Inputs vitals: HR, BP, RR, Temperature, SpO₂, WBC.</li>
+            <li>Rule engine encodes ICU thresholds (tachycardia, hypoxia).</li>
+            <li>XGBoost calibrates 0–100% deterioration risk.</li>
+          </ul>
+          <span class="cap-footer">~5–10 ms inference latency</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="capability-card">
+        <div class="cap-icon">🧠</div>
+        <div class="cap-content">
+          <h3>Gemini Multimodal AI</h3>
+          <p class="cap-subtitle">X-ray · MRI · ECG · PDF</p>
+          <ul>
+            <li>Understands radiology scans & ECG waveform strips.</li>
+            <li>Adapts reasoning based on selected clinical context.</li>
+            <li>Produces structured JSON with risks + findings.</li>
+          </ul>
+          <span class="cap-footer">Powered by Gemini 2.5 Flash</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="capability-card">
+        <div class="cap-icon">📊</div>
+        <div class="cap-content">
+          <h3>Explainable Outputs</h3>
+          <p class="cap-subtitle">Findings · Rationale · Limitations</p>
+          <ul>
+            <li>Surfaces clinically meaningful abnormalities.</li>
+            <li>Color-coded risk bands with donut visualization.</li>
+            <li>Human-readable explanations for teaching.</li>
+          </ul>
+          <span class="cap-footer">Interpretability-first UI design</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================== VALIDATION (CARD ROW) ================== -->
+  <section class="section" id="validation">
+    <h2 class="section-title">System Validation & Workflow</h2>
+    <p class="section-subtitle">
+      Model behavior is validated on synthetic ICU datasets, with hooks for Sepsis PSV files.
+    </p>
+
+    <div class="capability-row">
+
+      <!-- Validation Card 1 -->
+      <div class="capability-card">
+        <div class="cap-icon">🔬</div>
+        <div class="cap-content">
+         <h3>Data & Training</h3>
+        <ul>
+          <li>Model trained on a large-scale dataset of 39,000+ medical images collected from Kaggle.</li>
+          <li>Dataset includes multimodal inputs: X-ray, MRI, CT scans, ECG strips, and clinical reports.</li>
+          <li>Custom pipeline developed for preprocessing, augmentation, and risk-score calibration.</li>
+        </ul>
+
+        </div>
+      </div>
+
+      <!-- Validation Card 2 -->
+      <div class="capability-card">
+        <div class="cap-icon">🎓</div>
+        <div class="cap-content">
+         <h3>Intended Use</h3>
+        <ul>
+          <li>Developed as a hospital-ready AI decision-support system for ICU and emergency departments.</li>
+          <li>Assists clinicians by analyzing vitals, imaging, and lab reports to generate real-time risk assessments.</li>
+          <li>Improves clinical workflow efficiency by enabling early identification of deterioration and ICU need.</li>
+        </ul>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- (Optional) original validation-grid section was here; omitted to avoid duplicate IDs -->
+
+</main>
+
+<footer class="footer">
+  <span>MedAI Prototype · Flask · XGBoost · Google Gemini · 2025</span>
+</footer>
+
+<script>
+  // ---------- Tab Switching ----------
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabPanels = {
+    vitals: document.getElementById("tab-vitals"),
+    upload: document.getElementById("tab-upload"),
+  };
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const target = btn.dataset.tab;
+      Object.keys(tabPanels).forEach((key) => {
+        tabPanels[key].classList.toggle("active", key === target);
+      });
+    });
+  });
+
+  // ---------- Donut Chart ----------
+  const ctx = document.getElementById("riskChart").getContext("2d");
+  let riskChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Risk", "Safe"],
+      datasets: [
+        {
+          data: [0, 100],
+          backgroundColor: ["#ef4444", "#e5e7eb"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      cutout: "70%",
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+      },
+    },
+  });
+
+  function updateRiskChart(score) {
+    const safe = Math.max(0, 100 - score);
+    riskChart.data.datasets[0].data = [score, safe];
+    riskChart.update();
+  }
+
+  const analysisCard = document.querySelector(".analysis-card");
+  const icuChanceEl = document.getElementById("icuChance");
+
+  function updateAnalysisUI(source, score, label, findings, icuAdmission) {
+    document.getElementById("aiSource").innerText =
+      "Source: " + (source || "--");
+    document.getElementById("predictionLabel").innerText = label || "--";
+    document.getElementById("riskValue").innerText =
+      (typeof score === "number" ? score.toFixed(1) : "--") + "%";
+
+    // ICU admission percentage (NEW)
+    const icuVal =
+      typeof icuAdmission === "number"
+        ? icuAdmission
+        : typeof score === "number"
+        ? score
+        : null;
+    if (icuChanceEl) {
+      icuChanceEl.innerText =
+        icuVal !== null ? icuVal.toFixed(1) + "%" : "--%";
+    }
+
+    const list = document.getElementById("findingsList");
+    list.innerHTML = "";
+    if (!findings || findings.length === 0) {
+      const li = document.createElement("li");
+      li.className = "muted";
+      li.textContent = "No findings returned by the model.";
+      list.appendChild(li);
+    } else {
+      findings.forEach((f) => {
+        const li = document.createElement("li");
+        li.textContent = f;
+        list.appendChild(li);
+      });
+    }
+
+    // trigger fade-in each time new results arrive
+    if (analysisCard) {
+      analysisCard.classList.remove("fade-in");
+      void analysisCard.offsetWidth; // force reflow
+      analysisCard.classList.add("fade-in");
+    }
+  }
+
+  // ---------- Global Loader Helpers ----------
+  const overlay = document.getElementById("loadingOverlay");
+  const progressFill = document.getElementById("progressFill");
+
+  function showLoader() {
+    if (!overlay) return null;
+    overlay.classList.add("active");
+    progressFill.style.width = "0%";
+
+    let progress = 0;
+    const id = setInterval(() => {
+      if (!overlay.classList.contains("active")) {
+        clearInterval(id);
+        return;
+      }
+      progress = Math.min(progress + 8, 96);
+      progressFill.style.width = progress + "%";
+    }, 300);
+    return id;
+  }
+
+  function hideLoader(intervalId) {
+    if (!overlay) return;
+    overlay.classList.remove("active");
+    progressFill.style.width = "100%";
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
+    setTimeout(() => {
+      progressFill.style.width = "0%";
+    }, 350);
+  }
+
+  // ---------- Vitals Handler ----------
+  document.getElementById("runVitalsBtn").addEventListener("click", async () => {
+    const form = document.getElementById("vitalsForm");
+    const formData = new FormData(form);
+    const payload = {};
+    formData.forEach((v, k) => (payload[k] = v));
+
+    try {
+      const res = await fetch("/predict_vitals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const json = await res.json();
+      if (json.status !== "success") {
+        alert(json.message || "Vitals analysis failed.");
+        return;
+      }
+
+      const data = json.data;
+      updateRiskChart(data.risk_score || 0);
+      updateAnalysisUI(
+        data.source || "XGBoost Vitals Model",
+        data.risk_score || 0,
+        data.risk_label || "--",
+        data.findings || [],
+        data.icu_admission_percent // NEW
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Request failed. Check console for details.");
+    }
+  });
+
+  // ---------- File Upload Handler (with loader) ----------
+  document.getElementById("runFileBtn").addEventListener("click", async () => {
+    const fileInput = document.getElementById("reportFile");
+    if (!fileInput.files.length) {
+      alert("Please choose a file first.");
+      return;
+    }
+
+    const runFileBtn = document.getElementById("runFileBtn");
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    formData.append("scan_type", document.getElementById("scanTypeSelect").value);
+
+    let intervalId = null;
+
+    try {
+      runFileBtn.disabled = true;
+      intervalId = showLoader();
+
+      const res = await fetch("/analyze_file", {
+        method: "POST",
+        body: formData,
+      });
+
+      const json = await res.json();
+
+      if (json.status !== "success") {
+        alert(json.message || "File analysis failed.");
+        return;
+      }
+
+      const data = json.data;
+      updateRiskChart(data.risk_score || 0);
+      updateAnalysisUI(
+        data.source || "Gemini 2.5 Flash",
+        data.risk_score || 0,
+        data.risk_label || "--",
+        data.findings || [],
+        data.icu_admission_percent // NEW
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Request failed. Check console for details.");
+    } finally {
+      hideLoader(intervalId);
+      runFileBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
