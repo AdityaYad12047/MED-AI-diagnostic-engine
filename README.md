@@ -2,7 +2,7 @@
 AI-driven medical analysis using **vitals, imaging, and multimodal models** (XGBoost + Google Gemini 2.5 Flash).
 
 <p align="center">
-  <img src="https://via.placeholder.com/900x250.png?text=MedAI+%7C+ICU+Risk+Prediction+%26+Diagnostic+Engine" />
+  <img src="https://github.com/AdityaYad12047/MED-AI-diagnostic-engine/blob/main/static/Gemini_Generated_Image_3bnino3bnino3bni.png" />
 </p>
 
 ---
