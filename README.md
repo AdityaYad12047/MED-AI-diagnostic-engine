@@ -1,13 +1,3 @@
-                ```
-      ███╗   ███╗   ███████╗  █████╗      █████╗   ██╗
-      ████╗ ████║   ██╔════╝  ██╔══██╗   ██╔══██╗  ██║
-      ██╔████╔██║   █████╗    ██   ██║   ███████║  ██║
-      ██║╚██╔╝██║   ██╔══╝    ██╔══██╗   ██╔══██║  ██║
-      ██║ ╚═╝ ██║   ███████╗  █████║     ██║  ██║  ██╗
-      ╚═╝     ╚═╝   ╚══════╝  ╚═╝ ╚═╝    ╚═╝  ╚═╝  ╚═╝
-           MULTI-MODAL DIAGNOSTIC ENGINE
-      ```
-
 
 # 🚑 MedAI — Multi-Modal Diagnostic Engine & ICU Risk Prediction System  
 AI-driven medical analysis using **vitals, imaging, and multimodal models** (XGBoost + Google Gemini 2.5 Flash).
@@ -229,7 +219,6 @@ Thank you.”
 
 ---
 
-# 🎨 GitHub Banner (ASCII)
 
 ```
 ███╗   ███╗   ███████╗  █████╗      █████╗   ██╗
@@ -237,7 +226,7 @@ Thank you.”
 ██╔████╔██║   █████╗    ██   ██║   ███████║  ██║
 ██║╚██╔╝██║   ██╔══╝    ██╔══██╗   ██╔══██║  ██║
 ██║ ╚═╝ ██║   ███████╗  █████║     ██║  ██║  ██╗
-╚═╝     ╚═╝   ╚══════╝  ╚═╝ ╚═╝    ╚═╝  ╚═╝  ╚═╝
+╚═╝     ╚═╝   ╚══════╝  ╚═╝╚═╝     ╚═╝  ╚═╝  ╚═╝
      MULTI-MODAL DIAGNOSTIC ENGINE
 ```
 
